@@ -1,0 +1,34 @@
+# Name of your workflow
+name: Build and Push Docker Image to DockerHub
+
+# This workflow triggers on a push to the main branch [cite: 13]
+on:
+  push:
+    branches: [ "main" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel [cite: 23]
+jobs:
+  build-and-push:
+    # The type of runner that the job will run on [cite: 22]
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job [cite: 23]
+    steps:
+      # Step 1: Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Log in to DockerHub using the secrets you created
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Step 3: Build the Docker image and push it to DockerHub [cite: 11]
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: your-dockerhub-username/nodejs-demo-app:latest
