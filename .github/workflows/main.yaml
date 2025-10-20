@@ -31,4 +31,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: your-dockerhub-username/nodejs-demo-app:latest
+          tags: cloudworld18/nodejs-demo-app:latest
